@@ -1,0 +1,28 @@
+*.log
+*.env
+
+# Eclipse
+.classpath
+.project
+.settings/
+
+# Intellij
+.idea/
+*.iml
+*.iws
+
+# Mac
+.DS_Store
+
+# Maven
+log/
+target/
+
+/target
+/.project
+/.classpath
+/.settings
+/.externalToolBuilders
+/.DS_Store
+/pom.xml.releaseBackup
+.idea
