@@ -1,7 +1,12 @@
 package signerman.example;
 
-import java.io.IOException;
-import java.lang.ref.PhantomReference;
+import org.demoiselle.signer.core.CertificateManager;
+import org.demoiselle.signer.core.extension.BasicCertificate;
+import org.demoiselle.signer.core.keystore.loader.factory.KeyStoreLoaderFactory;
+import org.demoiselle.signer.core.keystore.loader.implementation.FileSystemKeyStoreLoader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.KeyStore;
@@ -9,19 +14,6 @@ import java.security.PrivateKey;
 import java.security.cert.Certificate;
 import java.security.cert.X509Certificate;
 import java.util.Enumeration;
-
-import javax.security.auth.callback.Callback;
-import javax.security.auth.callback.CallbackHandler;
-import javax.security.auth.callback.PasswordCallback;
-import javax.security.auth.callback.UnsupportedCallbackException;
-
-import org.demoiselle.signer.core.CertificateManager;
-import org.demoiselle.signer.core.extension.BasicCertificate;
-import org.demoiselle.signer.core.keystore.loader.KeyStoreLoader;
-import org.demoiselle.signer.core.keystore.loader.factory.KeyStoreLoaderFactory;
-import org.demoiselle.signer.core.keystore.loader.implementation.FileSystemKeyStoreLoader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class CertificateLoad {
 

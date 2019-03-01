@@ -23,67 +23,61 @@ public class App {
     private JPasswordField passwordFieldPFX;
     private JTextField textFieldPFX;
     private JPanel panelMain;
-    private JTextField textFieldArquivo;
-    private JButton buttonSelecionarArquivo;
-    private JButton assinarArquivoButton;
-    private JButton buttonSelecionarPFX;
-    private JButton fecharButton;
+    private JTextField textFieldFile;
+    private JButton buttonSelectFile;
+    private JButton buttonSignFile;
+    private JButton buttonSelectPfxFile;
+    private JButton closeButton;
     final JFileChooser fc = new JFileChooser();
 
     public void init() {
-        buttonSelecionarArquivo.setIcon(UIManager.getIcon("FileView.directoryIcon"));
-        buttonSelecionarPFX.setIcon(UIManager.getIcon("FileView.directoryIcon"));
-        fecharButton.addActionListener(new ActionListener() {
+        buttonSelectFile.setIcon(UIManager.getIcon("FileView.directoryIcon"));
+        buttonSelectPfxFile.setIcon(UIManager.getIcon("FileView.directoryIcon"));
+        closeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
             }
         });
 
-        buttonSelecionarArquivo.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //Handle open button action.
-                int returnVal = fc.showOpenDialog(null);
+        buttonSelectFile.addActionListener(event -> {
+            //Handle open button action.
+            int returnVal = fc.showOpenDialog(null);
 
-                if (returnVal == JFileChooser.APPROVE_OPTION) {
-                    File file = fc.getSelectedFile();
-                    App.this.textFieldArquivo.setText(file.getAbsolutePath());
-                    //This is where a real application would open the file.
-                    logger.info("Opening: " + file.getName());
-                } else {
-                    logger.info("Open command cancelled by user.");
-                }
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                File file = fc.getSelectedFile();
+                App.this.textFieldFile.setText(file.getAbsolutePath());
+                //This is where a real application would open the file.
+                logger.info("Opening: " + file.getName());
+            } else {
+                logger.info("Open command cancelled by user.");
             }
         });
-        buttonSelecionarPFX.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //Handle open button action.
-                int returnVal = fc.showOpenDialog(null);
+        buttonSelectPfxFile.addActionListener(event -> {
+            //Handle open button action.
+            int returnVal = fc.showOpenDialog(null);
 
-                if (returnVal == JFileChooser.APPROVE_OPTION) {
-                    File file = fc.getSelectedFile();
-                    App.this.textFieldPFX.setText(file.getAbsolutePath());
-                    //This is where a real application would open the file.
-                    logger.info("Opening: " + file.getName());
-                } else {
-                    logger.info("Open command cancelled by user.");
-                }
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                File file = fc.getSelectedFile();
+                App.this.textFieldPFX.setText(file.getAbsolutePath());
+                //This is where a real application would open the file.
+                logger.info("Opening: " + file.getName());
+            } else {
+                logger.info("Open command cancelled by user.");
             }
         });
-        assinarArquivoButton.addActionListener(e -> {
-            String contentfile = App.this.textFieldArquivo.getText();
+        buttonSignFile.addActionListener(event -> {
+            String contentfile = App.this.textFieldFile.getText();
             String pfxfilename = App.this.textFieldPFX.getText();
             if (!pfxfilename.toLowerCase().endsWith("pfx")) {
-                JOptionPane.showMessageDialog(null, "O arquivo pfx tem que terminar com a extensão pfx");
+                JOptionPane.showMessageDialog(null, "The pfx file must end with the pfx extension.");
                 return;
             }
             Signer signer = new Signer();
             signer.setContentFile(Paths.get(contentfile));
             signer.setKeyStoreParams(pfxfilename, new String(App.this.passwordFieldPFX.getPassword()));
             signer.sign();
-            JOptionPane.showMessageDialog(frame, "Arquivo assinado");
+            JOptionPane.showMessageDialog(frame, "Signed file");
         });
     }
 
@@ -137,9 +131,9 @@ public class App {
         panel1.add(label3, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         textFieldPFX = new JTextField();
         panel1.add(textFieldPFX, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        buttonSelecionarPFX = new JButton();
-        buttonSelecionarPFX.setText("");
-        panel1.add(buttonSelecionarPFX, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        buttonSelectPfxFile = new JButton();
+        buttonSelectPfxFile.setText("");
+        panel1.add(buttonSelectPfxFile, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
         final JPanel panel2 = new JPanel();
         panel2.setLayout(new GridLayoutManager(2, 4, new Insets(0, 0, 0, 0), -1, -1));
         panelMain.add(panel2, new GridConstraints(2, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_BOTH, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, null, null, null, 0, false));
@@ -151,17 +145,17 @@ public class App {
         final JLabel label5 = new JLabel();
         label5.setText("Arquivo");
         panel2.add(label5, new GridConstraints(1, 0, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_NONE, GridConstraints.SIZEPOLICY_FIXED, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        textFieldArquivo = new JTextField();
-        panel2.add(textFieldArquivo, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
-        buttonSelecionarArquivo = new JButton();
-        buttonSelecionarArquivo.setText("");
-        panel2.add(buttonSelecionarArquivo, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        assinarArquivoButton = new JButton();
-        assinarArquivoButton.setText("Assinar Arquivo");
-        panelMain.add(assinarArquivoButton, new GridConstraints(3, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
-        fecharButton = new JButton();
-        fecharButton.setText("Fechar");
-        panelMain.add(fecharButton, new GridConstraints(4, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        textFieldFile = new JTextField();
+        panel2.add(textFieldFile, new GridConstraints(1, 1, 1, 1, GridConstraints.ANCHOR_WEST, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_WANT_GROW, GridConstraints.SIZEPOLICY_FIXED, null, new Dimension(150, -1), null, 0, false));
+        buttonSelectFile = new JButton();
+        buttonSelectFile.setText("");
+        panel2.add(buttonSelectFile, new GridConstraints(1, 2, 1, 1, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        buttonSignFile = new JButton();
+        buttonSignFile.setText("Assinar Arquivo");
+        panelMain.add(buttonSignFile, new GridConstraints(3, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
+        closeButton = new JButton();
+        closeButton.setText("Fechar");
+        panelMain.add(closeButton, new GridConstraints(4, 0, 1, 2, GridConstraints.ANCHOR_CENTER, GridConstraints.FILL_HORIZONTAL, GridConstraints.SIZEPOLICY_CAN_SHRINK | GridConstraints.SIZEPOLICY_CAN_GROW, GridConstraints.SIZEPOLICY_FIXED, null, null, null, 0, false));
     }
 
     /**
