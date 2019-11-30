@@ -60,14 +60,14 @@ public class CertificateLoad {
                     logger.info("CPF: {}",new String[] {cert.getCpf()});
 
                      BasicCertificate bc = new BasicCertificate(certificate);
-                     logger.info("Nome....................[{}]",
+                     logger.info("Name....................[{}]",
                      new String[]       {bc.getNome()});
                      logger.info("E-mail..................[{}]",
                              new String[]       {bc.getEmail()});
-                     logger.info("Numero de serie.........[{}]",
+                     logger.info("Serial Number.........[{}]",
                              new String[]       {bc.getSerialNumber()});
                 } catch (Exception e) {
-                    logger.error("Erro ao carregar o certificado (ICP Brasil) com alias [" + alias + "]", e);
+                    logger.error("Error loading certificate (ICP Brasil) with alias [" + alias + "]", e);
                 }
 
             }
